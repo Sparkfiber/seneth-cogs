@@ -17,6 +17,7 @@ class SpecialRoles(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
+
 	@staticmethod
 	def success(description):
 		embed = Embed(color=0x2ecc71,
@@ -63,7 +64,7 @@ class SpecialRoles(commands.Cog):
 			return
 
 		query = "SELECT * FROM special_roles WHERE (guild_id = $1) and (name = $2)"
-		roles = await self.cur.execute(query, message.guild.id, name)
+		roles = await cur.execute(query, message.guild.id, name)
 		if not roles:
 			return
 
@@ -88,13 +89,22 @@ class SpecialRoles(commands.Cog):
 		fmt = ",".join(role.name for role in roles_to_add)
 		await ctx.send(embed=self.success(f"{member_to_give.name} given {fmt}"))
 
+
+	@commands.command()
+	@checks.is_owner()
+	@commands.guild_only()
+	async def builddatabase(self, ctx):
+		"""Remove a special role"""
+		await cur.execute("CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)")
+        await ctx.send(embed=self.success("Woot!"))
+
 	@commands.command(aliases=["remove_special_role", "special_role_delete", "special_role_remove"])
 	@checks.admin_or_permissions(manage_guild=True)
 	@commands.guild_only()
 	async def delete_special_role(self, ctx, name):
 		"""Remove a special role"""
 		query = "DELETE FROM special_roles WHERE (guild_id = $1) and (name = $2)"
-		await self.cur.execute.fetchall(query, ctx.guild.id, name)
+		await cur.execute.fetchall(query, ctx.guild.id, name)
 		await ctx.send(embed=self.success(f"Any special roles names {name} were deleted"))
 
 	@commands.command(aliases=["special_roles", "special_roles_view"])
@@ -103,7 +113,7 @@ class SpecialRoles(commands.Cog):
 	async def view_special_roles(self, ctx):
 		"""View all special roles"""
 		query = "SELECT * FROM special_roles WHERE guild_id = $1"
-		roles = await self.cur.execute.fetchall(query, ctx.guild.id)
+		roles = await cur.execute.fetchall(query, ctx.guild.id)
 		if not roles:
 			await ctx.send(embed=self.error("No special roles for this guild"))
 			return
@@ -168,5 +178,5 @@ class SpecialRoles(commands.Cog):
 			return
 
 		query = "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES ($1, $2, $3, $4)"
-		await self.cur.execute.execute(query, ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id)
+		await cur.execute.execute(query, ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id)
 		await ctx.send(embed=self.success(f"Speical role made. Example usage {ctx.prefix}{name} {ctx.me.mention}"))
