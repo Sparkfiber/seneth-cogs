@@ -6,13 +6,14 @@ import asyncio
 from prettytable import PrettyTable
 import sqlite3
 
-con = sqlite3.connect("specialroles.sql")
-con.isolation_level = None
-cur = con.cursor()
 
 
 class SpecialRoles(commands.Cog):
 	"""Allow anyone with a certain role to give a specific role"""
+
+    con = sqlite3.connect("specialroles.sql")
+    con.isolation_level = None
+    cur = con.cursor()
 
 	def __init__(self, bot):
 		self.bot = bot
