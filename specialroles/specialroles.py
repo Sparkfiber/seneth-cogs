@@ -200,14 +200,15 @@ class SpecialRoles(commands.Cog):
                     await ctx.send(embed=self.error("No roles were mentioned"))
         except asyncio.TimeoutError:
             return
-
-        query = """INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?,);"""
         guild = ctx.guild
         applyrole = role_to_be_applied.id
         givingrole = able_to_give_role.id
 
-        data_tuple = (guild, name, applyrole, givingrole)
-        await self.cur.execute(query, data_tuple)
+        await self.cur.execute(
+            "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?,)",
+            (guild, name, applyrole, givingrole,),
+        )
+
         await ctx.send(
             embed=self.success(
                 f"Speical role made. Example usage {ctx.prefix}{name} {ctx.me.mention}"
