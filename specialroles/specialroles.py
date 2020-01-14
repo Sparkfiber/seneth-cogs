@@ -11,12 +11,10 @@ import sqlite3
 class SpecialRoles(commands.Cog):
 	"""Allow anyone with a certain role to give a specific role"""
 
-	con = sqlite3.connect("specialroles.sql")
-	con.isolation_level = None
-	cur = con.cursor()
-
 	def __init__(self, bot):
 		self.bot = bot
+		con = sqlite3.connect("specialroles.sql")
+		self.self.cur = con.self.cursor()
 
 	@staticmethod
 	def success(description):
@@ -64,7 +62,7 @@ class SpecialRoles(commands.Cog):
 			return
 
 		query = "SELECT * FROM special_roles WHERE (guild_id = $1) and (name = $2)"
-		roles = await cur.execute(query, message.guild.id, name)
+		roles = await self.cur.execute(query, message.guild.id, name)
 		if not roles:
 			return
 
@@ -95,7 +93,7 @@ class SpecialRoles(commands.Cog):
 	@commands.guild_only()
 	async def builddatabase(self, ctx):
 		"""Remove a special role"""
-		await cur.execute("CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)")
+		await self.cur.execute("CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)")
 		await ctx.send(embed=self.success("Woot!"))
 
 	@commands.command(aliases=["remove_special_role", "special_role_delete", "special_role_remove"])
@@ -104,7 +102,7 @@ class SpecialRoles(commands.Cog):
 	async def delete_special_role(self, ctx, name):
 		"""Remove a special role"""
 		query = "DELETE FROM special_roles WHERE (guild_id = $1) and (name = $2)"
-		await cur.execute.fetchall(query, ctx.guild.id, name)
+		await self.cur.execute.fetchall(query, ctx.guild.id, name)
 		await ctx.send(embed=self.success(f"Any special roles names {name} were deleted"))
 
 	@commands.command(aliases=["special_roles", "special_roles_view"])
@@ -113,7 +111,7 @@ class SpecialRoles(commands.Cog):
 	async def view_special_roles(self, ctx):
 		"""View all special roles"""
 		query = "SELECT * FROM special_roles WHERE guild_id = $1"
-		roles = await cur.execute.fetchall(query, ctx.guild.id)
+		roles = await self.cur.execute.fetchall(query, ctx.guild.id)
 		if not roles:
 			await ctx.send(embed=self.error("No special roles for this guild"))
 			return
@@ -178,5 +176,5 @@ class SpecialRoles(commands.Cog):
 			return
 
 		query = "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES ($1, $2, $3, $4)"
-		await cur.execute.execute(query, ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id)
+		await self.cur.execute.execute(query, ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id)
 		await ctx.send(embed=self.success(f"Speical role made. Example usage {ctx.prefix}{name} {ctx.me.mention}"))
