@@ -202,11 +202,11 @@ class SpecialRoles(commands.Cog):
             return
 
         query = "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?)"
-		guildid = ctx.guild.id
+		guild = ctx.guild
 		applyrole = role_to_be_applied.id
 		givingrole = able_to_give_role.id
 
-		data_tuple = (guildid, name, applyrole, givingrole)
+		data_tuple = (guild, name, applyrole, givingrole)
         await self.cur.execute(query, data_tuple)
         await ctx.send(
             embed=self.success(
