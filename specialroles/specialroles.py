@@ -93,7 +93,7 @@ class SpecialRoles(commands.Cog):
 	@commands.guild_only()
 	async def builddatabase(self, ctx):
 		"""Remove a special role"""
-		await self.cur.execute("CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)")
+		self.cur.execute("CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)")
 		await ctx.send(embed=self.success("Woot!"))
 
 	@commands.command(aliases=["remove_special_role", "special_role_delete", "special_role_remove"])
