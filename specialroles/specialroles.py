@@ -201,10 +201,13 @@ class SpecialRoles(commands.Cog):
         except asyncio.TimeoutError:
             return
 
-        await self.cur.execute(
-            "INSERT INTO special_roles (?,?,?,?)",
-            (ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id,),
-        )
+        query = "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?)"
+		guildid = ctx.guild.id
+		applyrole = role_to_be_applied.id
+		givingrole = able_to_give_role.id
+
+		data_tuple = (guildid, name, applyrole, givingrole)
+        await self.cur.execute(query, data_tuple)
         await ctx.send(
             embed=self.success(
                 f"Speical role made. Example usage {ctx.prefix}{name} {ctx.me.mention}"
