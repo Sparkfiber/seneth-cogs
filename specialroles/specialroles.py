@@ -206,7 +206,7 @@ class SpecialRoles(commands.Cog):
 
         await self.cur.execute(
             "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?,)",
-            (guild, name, applyrole, givingrole,),
+            (guild, name, applyrole, givingrole,)
         )
 
         await ctx.send(
