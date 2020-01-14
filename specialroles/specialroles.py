@@ -201,7 +201,7 @@ class SpecialRoles(commands.Cog):
         except asyncio.TimeoutError:
             return
 
-        query = "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?)"
+        query = """INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES (?,?,?,?);"""
         guild = ctx.guild
         applyrole = role_to_be_applied.id
         givingrole = able_to_give_role.id
