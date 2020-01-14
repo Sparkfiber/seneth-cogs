@@ -11,9 +11,9 @@ import sqlite3
 class SpecialRoles(commands.Cog):
 	"""Allow anyone with a certain role to give a specific role"""
 
-    con = sqlite3.connect("specialroles.sql")
-    con.isolation_level = None
-    cur = con.cursor()
+	con = sqlite3.connect("specialroles.sql")
+	con.isolation_level = None
+	cur = con.cursor()
 
 	def __init__(self, bot):
 		self.bot = bot
@@ -21,22 +21,22 @@ class SpecialRoles(commands.Cog):
 	@staticmethod
 	def success(description):
 		embed = Embed(color=0x2ecc71,
-		              title="✅ Success",
-		              description=description)
+					  title="✅ Success",
+					  description=description)
 		return embed
 
 	@staticmethod
 	def notice(description):
 		embed = Embed(color=0xe67e22,
-		              title="❕ Notice",
-		              description=description)
+					  title="❕ Notice",
+					  description=description)
 		return embed
 
 	@staticmethod
 	def error(description):
 		embed = Embed(color=0xe74c3c,
-		              title="⚠ Error",
-		              description=description)
+					  title="⚠ Error",
+					  description=description)
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
@@ -96,7 +96,7 @@ class SpecialRoles(commands.Cog):
 	async def builddatabase(self, ctx):
 		"""Remove a special role"""
 		await cur.execute("CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)")
-        await ctx.send(embed=self.success("Woot!"))
+		await ctx.send(embed=self.success("Woot!"))
 
 	@commands.command(aliases=["remove_special_role", "special_role_delete", "special_role_remove"])
 	@checks.admin_or_permissions(manage_guild=True)
@@ -142,7 +142,7 @@ class SpecialRoles(commands.Cog):
 	@checks.admin_or_permissions(manage_guild=True)
 	@commands.guild_only()
 	async def create_special_role(self, ctx, name=None, role_to_be_applied: Role = None,
-	                              able_to_give_role: Role = None):
+								  able_to_give_role: Role = None):
 		"""Open a wizard to create special roles"""
 
 		def check(message):
@@ -152,8 +152,8 @@ class SpecialRoles(commands.Cog):
 			if not name:
 				await ctx.send(
 					embed=self.notice("What would you like the name of the special role ot be?\nThis "
-					                      "name will be used to give the role. For example if the name is `under18` the "
-					                      f"role will then be given with the command `{ctx.prefix}under18`"))
+										  "name will be used to give the role. For example if the name is `under18` the "
+										  f"role will then be given with the command `{ctx.prefix}under18`"))
 				name_message = await self.bot.wait_for("message", check=check, timeout=60.0)
 				name = name_message.content
 			while not role_to_be_applied:
