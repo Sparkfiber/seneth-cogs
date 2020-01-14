@@ -88,7 +88,7 @@ class SpecialRoles(commands.Cog):
     @checks.is_owner()
     @commands.guild_only()
     async def builddatabase(self, ctx):
-        """Remove a special role"""
+        """Build the sql database for role commands."""
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS special_roles (guild_id BIGINT, name TEXT, applied_role_id BIGINT, give_role_id BIGINT)"
         )
@@ -201,9 +201,10 @@ class SpecialRoles(commands.Cog):
         except asyncio.TimeoutError:
             return
 
-        query = "INSERT INTO special_roles (guild_id, name, applied_role_id, give_role_id) VALUES ($1, $2, $3, $4)"
         await self.cur.execute(
-            query, ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id
+            "INSERT INTO special_roles (?,?,?,?)"(
+                ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id
+            )
         )
         await ctx.send(
             embed=self.success(
