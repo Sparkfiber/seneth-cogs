@@ -14,7 +14,7 @@ class SpecialRoles(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		con = sqlite3.connect("specialroles.sql")
-		self.cur = con.self.cursor()
+		self.cur = con.cursor()
 
 	@staticmethod
 	def success(description):
