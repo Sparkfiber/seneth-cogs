@@ -202,9 +202,8 @@ class SpecialRoles(commands.Cog):
             return
 
         await self.cur.execute(
-            "INSERT INTO special_roles (?,?,?,?)"(
-                ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id
-            )
+            "INSERT INTO special_roles (?,?,?,?)",
+            (ctx.guild.id, name, role_to_be_applied.id, able_to_give_role.id),
         )
         await ctx.send(
             embed=self.success(
