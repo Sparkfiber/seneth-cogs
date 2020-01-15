@@ -1,5 +1,6 @@
 from redbot.core import commands, checks
 from redbot.core.utils import chat_formatting as cf
+
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from discord import User, File, Embed, Permissions, utils, HTTPException
 from PIL import Image
@@ -10,17 +11,17 @@ import functools
 import io
 import traceback
 
-images = {'ace': '/data/ace.png', 'ally': '/data/ally.png', 'androgenous': '/data/androgenous.png', 'androgyne': '/data/androgyne.png',
-          'aromantic': '/data/aromantic.png', 'bdsm': '/data/bdsm.png', 'bear': '/data/bear.png', 'bisexual': '/data/bisexual.png',
-          'demisexual': '/data/demisexual.png', 'fat': '/data/fat.png', 'genderfluid': '/data/genderfluid.png',
-          'genderqueer': '/data/genderqueer.png', 'gynephilia': '/data/gynephilia.png', 'hermaphrodite': '/data/hermaphrodite.png',
-          'intersex': '/data/intersex.png', 'intersex2': '/data/intersex2.png', 'intergender': '/data/intergender.png', 'leather': '/data/leather.png',
-          'leathergirl': '/data/leathergirl.png', 'leatherqueer': '/data/leatherqueer.png', 'lesbian': '/data/lesbian.png',
-          'lithromantic': '/data/lithromantic.png', 'longhair': '/data/longhair.png', 'neutrois': '/data/neutrois.png',
-          'nonbinary': '/data/nonbinary.png', 'ownership': '/data/ownership.png', 'pansexual': '/data/pansexual.png',
-          'polyamorous':'/data/polyamorous.png', 'polysexual': '/data/polysexual.png','questioning': '/data/questioning.png',  'gay': 'gay.png', 'puppy': '/data/puppy.png', 'rubber': '/data/rubber.png',
-          'skoliosexual': '/data/skoliosexual.png', 'straight': '/data/straight.png', 'trans': '/data/trans.png',
-          'trigender': '/data/trigender.png', 'twink': '/data/twink.png'}
+images = {'ace': 'bundled_data_path(self) / ace.png', 'ally': 'bundled_data_path(self) / ally.png', 'androgenous': 'bundled_data_path(self) / androgenous.png', 'androgyne': 'bundled_data_path(self) / androgyne.png',
+          'aromantic': 'bundled_data_path(self) / aromantic.png', 'bdsm': 'bundled_data_path(self) / bdsm.png', 'bear': 'bundled_data_path(self) / bear.png', 'bisexual': 'bundled_data_path(self) / bisexual.png',
+          'demisexual': 'bundled_data_path(self) / demisexual.png', 'fat': 'bundled_data_path(self) / fat.png', 'genderfluid': 'bundled_data_path(self) / genderfluid.png',
+          'genderqueer': 'bundled_data_path(self) / genderqueer.png', 'gynephilia': 'bundled_data_path(self) / gynephilia.png', 'hermaphrodite': 'bundled_data_path(self) / hermaphrodite.png',
+          'intersex': 'bundled_data_path(self) / intersex.png', 'intersex2': 'bundled_data_path(self) / intersex2.png', 'intergender': 'bundled_data_path(self) / intergender.png', 'leather': 'bundled_data_path(self) / leather.png',
+          'leathergirl': 'bundled_data_path(self) / leathergirl.png', 'leatherqueer': 'bundled_data_path(self) / leatherqueer.png', 'lesbian': 'bundled_data_path(self) / lesbian.png',
+          'lithromantic': 'bundled_data_path(self) / lithromantic.png', 'longhair': 'bundled_data_path(self) / longhair.png', 'neutrois': 'bundled_data_path(self) / neutrois.png',
+          'nonbinary': 'bundled_data_path(self) / nonbinary.png', 'ownership': 'bundled_data_path(self) / ownership.png', 'pansexual': 'bundled_data_path(self) / pansexual.png',
+          'polyamorous':'bundled_data_path(self) / polyamorous.png', 'polysexual': 'bundled_data_path(self) / polysexual.png','questioning': 'bundled_data_path(self) / questioning.png',  'gay': 'gay.png', 'puppy': 'bundled_data_path(self) / puppy.png', 'rubber': 'bundled_data_path(self) / rubber.png',
+          'skoliosexual': 'bundled_data_path(self) / skoliosexual.png', 'straight': 'bundled_data_path(self) / straight.png', 'trans': 'bundled_data_path(self) / trans.png',
+          'trigender': 'bundled_data_path(self) / trigender.png', 'twink': 'bundled_data_path(self) / twink.png'}
 
 actual_images = {}
 for key, value in images.items():
