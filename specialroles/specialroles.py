@@ -36,11 +36,9 @@ class SpecialRoles(commands.Cog):
 		proxy_ctx.bot = self.bot
 		if not await checks.has_level(proxy_ctx, "mod"):
 			return
-		agerole = self.guild.get_role(398292634935754764)
+		over18role = self.guild.get_role(398292634935754764)
 		famrole = self.guild.get_role(252491587249111050)
-		await reaction.message.author.add_roles(agerole)
-		await reaction.message.author.add_roles(famrole)
-		await proxy_ctx.send(embed=self.notice("Added <@398292634935754764> and <@252491587249111050>"))
+		await reaction.message.author.add_roles(over18role, famrole)
 
 	@commands.Cog.listener()
 	async def on_reaction_add(self, reaction, user):
@@ -56,6 +54,4 @@ class SpecialRoles(commands.Cog):
 			return
 		agerole = self.guild.get_role(428207167405817856)
 		famrole = self.guild.get_role(252491587249111050)
-		await reaction.message.author.add_roles(agerole)
-		await reaction.message.author.add_roles(famrole)
-		await proxy_ctx.send(embed=self.notice("Added <@428207167405817856> and <@252491587249111050>"))
+		await reaction.message.author.add_roles(under18role, famrole)
