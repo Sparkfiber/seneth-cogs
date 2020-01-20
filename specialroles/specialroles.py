@@ -37,11 +37,8 @@ class SpecialRoles(commands.Cog):
 		if not await checks.has_level(proxy_ctx, "mod"):
 			return
 		over18role = self.guild.get_role(398292634935754764)
-		famrole = self.guild.get_role(252491587249111050)
-		await reaction.message.author.add_roles(over18role, famrole)
+		await reaction.message.author.add_roles(over18role)
 
-	@commands.Cog.listener()
-	async def on_reaction_add(self, reaction, user):
 		if reaction.emoji != "➖":
 			return
 		if reaction.message.guild.id != 250309924096049164:
@@ -52,6 +49,18 @@ class SpecialRoles(commands.Cog):
 		proxy_ctx.bot = self.bot
 		if not await checks.has_level(proxy_ctx, "mod"):
 			return
-		agerole = self.guild.get_role(428207167405817856)
+		under18role = self.guild.get_role(428207167405817856)
+		await reaction.message.author.add_roles(under18role)
+
+		if reaction.emoji != "🔑":
+			return
+		if reaction.message.guild.id != 250309924096049164:
+			return
+		proxy_ctx = Object(id=None)
+		proxy_ctx.guild = reaction.message.guild
+		proxy_ctx.author = user
+		proxy_ctx.bot = self.bot
+		if not await checks.has_level(proxy_ctx, "mod"):
+			return
 		famrole = self.guild.get_role(252491587249111050)
-		await reaction.message.author.add_roles(under18role, famrole)
+		await reaction.message.author.add_roles(famrole)
