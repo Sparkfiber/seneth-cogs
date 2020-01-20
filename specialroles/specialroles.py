@@ -3,6 +3,8 @@ from redbot.core.utils import chat_formatting as cf
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from discord import Object, TextChannel, Member, Embed, Role
 import asyncio
+import functools
+import io
 
 
 class SpecialRoles(commands.Cog):
