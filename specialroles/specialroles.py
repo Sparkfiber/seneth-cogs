@@ -9,7 +9,6 @@ class SpecialRoles(commands.Cog):
 	"""Allow anyone with a certain role to give a specific role"""
 
 	def __init__(self):
-		self.bot = bot
 
 	@staticmethod
 	def success(description):
