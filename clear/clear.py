@@ -60,17 +60,10 @@ class Clear(commands.Cog):
 	@commands.command()
 	@checks.mod_or_permissions()
 	@commands.guild_only()
-	@commands.cooldown(1, 20, commands.cooldowns.BucketType.guild)
 	async def clearbefore(self, ctx, message_id: int, number_to_delete: int = 2000):
 		"""Clear all messages (up to 2000) in the channel the command is run in before a given message id"""
 
 		await ctx.channel.purge(limit=number_to_delete, before=Object(id=message_id))
-
-	@clearbefore.error
-	async def clearbeforeerror(self, ctx, error):
-		if isinstance(error, commands.CommandOnCooldown):
-			if await checks.has_level(ctx, "developer"):
-				await ctx.reinvoke()
 
 	@commands.command()
 	@checks.mod_or_permissions()
@@ -83,7 +76,6 @@ class Clear(commands.Cog):
 	@commands.command()
 	@checks.mod_or_permissions()
 	@commands.guild_only()
-	@commands.cooldown(1, 20, commands.cooldowns.BucketType.guild)
 	async def clearbot(self, ctx, number_to_delete: int = 2000):
 		"""Clear specified number of messages (default 2000) from bots in the channel the command is run in."""
 
@@ -91,12 +83,6 @@ class Clear(commands.Cog):
 			return message.author.bot
 
 		await ctx.channel.purge(limit=number_to_delete, check=check)
-
-	@clearbot.error
-	async def clearboterror(self, ctx, error):
-		if isinstance(error, commands.CommandOnCooldown):
-			if await checks.has_level(ctx, "developer"):
-				await ctx.reinvoke()
 
 	@commands.command()
 	@checks.mod_or_permissions()
@@ -127,7 +113,6 @@ class Clear(commands.Cog):
 	@commands.command()
 	@checks.mod_or_permissions()
 	@commands.guild_only()
-	@commands.cooldown(1, 300, commands.cooldowns.BucketType.guild)
 	async def cleargone(self, ctx, ignore_channels: commands.Greedy[TextChannel]):
 		"""Clear all messages in all channels (up to 2000 per channel) from members no longer in the guild """
 
@@ -140,12 +125,6 @@ class Clear(commands.Cog):
 			await msg.edit(embed=self.notice(f"Cleared {channel.mention}"))
 
 		await msg.edit(embed=self.success("Cleared all messages from non-members"))
-
-	@cleargone.error
-	async def cleargoneerror(self, ctx, error):
-		if isinstance(error, commands.CommandOnCooldown):
-			if await checks.has_level(ctx, "developer"):
-				await ctx.reinvoke()
 
 	@commands.command()
 	@checks.mod_or_permissions()
